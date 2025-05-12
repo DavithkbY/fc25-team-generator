@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, ShieldAlert } from "lucide-react";
+import { RefreshCw, ShieldAlert, Users } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import TeamCard from "./TeamCard";
+import PlayerInput from "./PlayerInput";
 import { TeamConfig, ClubRating } from "@shared/schema";
-import { getTwoRandomClubs } from "@/lib/clubData";
-
-// The four people we'll generate teams from
-const PEOPLE = ["Davit", "Jarne", "Michiel", "Koen"];
+import { getTwoRandomClubs, DEFAULT_PLAYERS } from "@/lib/clubData";
 
 interface TeamGeneratorProps {
   onGenerateTeams: (teams: { team1: string[], team2: string[], team1Club: string, team2Club: string }) => void;
@@ -21,6 +20,7 @@ export default function TeamGenerator({
   isGenerating,
   latestTeams
 }: TeamGeneratorProps) {
+  const [players, setPlayers] = useState<string[]>(DEFAULT_PLAYERS);
   const [teams, setTeams] = useState<{ 
     team1: string[], 
     team2: string[],
@@ -45,15 +45,23 @@ export default function TeamGenerator({
         team2Club: latestTeams.team2Club
       });
     } else {
-      const newTeams = generateRandomTeams();
-      setTeams(newTeams);
+      generateRandomTeams();
     }
   }, [latestTeams]);
 
+  // Regenerate teams when players change
+  useEffect(() => {
+    if (players.length === 4) {
+      generateRandomTeams();
+    }
+  }, [players]);
+
   // Function to generate random teams with clubs
   const generateRandomTeams = () => {
+    if (players.length !== 4) return;
+    
     // Clone the array to avoid modifying the original
-    const shuffled = [...PEOPLE];
+    const shuffled = [...players];
     
     // Fisher-Yates shuffle algorithm
     for (let i = shuffled.length - 1; i > 0; i--) {
@@ -68,19 +76,23 @@ export default function TeamGenerator({
     // Get random clubs based on rating
     const [club1, club2] = getTwoRandomClubs(minRating);
     
-    return { 
+    const newTeams = { 
       team1, 
       team2,
       team1Club: club1.name,
       team2Club: club2.name
     };
+    
+    setTeams(newTeams);
+    return newTeams;
   };
 
   // Handle generate button click
   const handleGenerateTeams = () => {
     const newTeams = generateRandomTeams();
-    setTeams(newTeams);
-    onGenerateTeams(newTeams);
+    if (newTeams) {
+      onGenerateTeams(newTeams);
+    }
   };
 
   // Handle club rating change
@@ -88,13 +100,35 @@ export default function TeamGenerator({
     setMinRating(value as ClubRating);
   };
 
+  // Handle player changes
+  const handlePlayersChange = (updatedPlayers: string[]) => {
+    setPlayers(updatedPlayers);
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+      {/* Player Configuration */}
+      <div className="mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Users className="h-5 w-5 text-neutral-600" />
+          <h3 className="text-lg font-medium">Players</h3>
+        </div>
+        <PlayerInput onChange={handlePlayersChange} maxPlayers={4} />
+        
+        {players.length !== 4 && (
+          <p className="text-amber-600 text-sm mt-2">
+            You need exactly 4 players to generate teams.
+          </p>
+        )}
+      </div>
+
+      <Separator className="my-6" />
+
       {/* Club Rating Selection */}
       <div className="mb-6">
-        <div className="flex items-center gap-2 mb-1">
-          <ShieldAlert className="h-4 w-4 text-neutral-600" />
-          <Label htmlFor="club-rating" className="text-sm font-medium">Football Club Rating</Label>
+        <div className="flex items-center gap-2 mb-3">
+          <ShieldAlert className="h-5 w-5 text-neutral-600" />
+          <h3 className="text-lg font-medium">Football Club Rating</h3>
         </div>
         <Select value={minRating} onValueChange={handleRatingChange}>
           <SelectTrigger id="club-rating" className="w-full md:w-64">
@@ -131,7 +165,7 @@ export default function TeamGenerator({
         <Button 
           size="lg" 
           onClick={handleGenerateTeams} 
-          disabled={isGenerating}
+          disabled={isGenerating || players.length !== 4}
           className="font-medium py-3 px-8 shadow-md"
         >
           <RefreshCw className="h-5 w-5 mr-2" />

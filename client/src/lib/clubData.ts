@@ -21,6 +21,10 @@ export const fourPointFiveStarClubs: FootballClub[] = [
   { id: "napoli", name: "Napoli", rating: "4.5" },
   { id: "lazio", name: "Lazio", rating: "4.5" },
   { id: "atalanta", name: "Atalanta", rating: "4.5" },
+  // Additional 4.5 star national teams
+  { id: "croatia", name: "Croatia", rating: "4.5" },
+  { id: "italy", name: "Italy", rating: "4.5" },
+  { id: "morocco", name: "Morocco", rating: "4.5" },
 ];
 
 // 5 Star Clubs
@@ -34,7 +38,18 @@ export const fiveStarClubs: FootballClub[] = [
   { id: "psg", name: "Paris Saint-Germain", rating: "5" },
   { id: "leverkusen", name: "Bayer 04 Leverkusen", rating: "5" },
   { id: "arsenal", name: "Arsenal", rating: "5" },
+  // Additional 5 star national teams
+  { id: "france", name: "France", rating: "5" },
+  { id: "england", name: "England", rating: "5" },
+  { id: "germany", name: "Germany", rating: "5" },
+  { id: "spain", name: "Spain", rating: "5" },
+  { id: "portugal", name: "Portugal", rating: "5" },
+  { id: "netherlands", name: "Netherlands", rating: "5" },
+  { id: "argentina", name: "Argentina", rating: "5" },
 ];
+
+// Default player names
+export const DEFAULT_PLAYERS = ["Davit", "Jarne", "Michiel", "Koen"];
 
 // Get all clubs based on minimum rating
 export function getClubsByMinRating(minRating: "4.5" | "5"): FootballClub[] {
