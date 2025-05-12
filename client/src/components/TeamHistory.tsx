@@ -64,13 +64,27 @@ export default function TeamHistory({ history, isLoading }: TeamHistoryProps) {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                   <div>
-                    <h3 className="font-medium text-blue-700 mb-1">Team 1</h3>
+                    <div className="flex justify-between items-center mb-1">
+                      <h3 className="font-medium text-blue-700">Team 1</h3>
+                      {entry.team1Club && (
+                        <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
+                          {entry.team1Club}
+                        </span>
+                      )}
+                    </div>
                     <div className="bg-blue-50 rounded-md p-2">
                       <span className="block">{entry.team1.join(', ')}</span>
                     </div>
                   </div>
                   <div>
-                    <h3 className="font-medium text-green-700 mb-1">Team 2</h3>
+                    <div className="flex justify-between items-center mb-1">
+                      <h3 className="font-medium text-green-700">Team 2</h3>
+                      {entry.team2Club && (
+                        <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                          {entry.team2Club}
+                        </span>
+                      )}
+                    </div>
                     <div className="bg-green-50 rounded-md p-2">
                       <span className="block">{entry.team2.join(', ')}</span>
                     </div>

@@ -2,9 +2,10 @@ interface TeamCardProps {
   teamNumber: number;
   teamColor: "blue" | "green";
   members: string[];
+  clubName?: string;
 }
 
-export default function TeamCard({ teamNumber, teamColor, members }: TeamCardProps) {
+export default function TeamCard({ teamNumber, teamColor, members, clubName }: TeamCardProps) {
   const bgColor = teamColor === "blue" ? "bg-blue-50" : "bg-green-50";
   const borderColor = teamColor === "blue" ? "border-blue-200" : "border-green-200";
   const textColor = teamColor === "blue" ? "text-blue-700" : "text-green-700";
@@ -12,9 +13,16 @@ export default function TeamCard({ teamNumber, teamColor, members }: TeamCardPro
 
   return (
     <div className={`${bgColor} border ${borderColor} rounded-lg p-4`}>
-      <h2 className={`text-xl font-semibold ${textColor} mb-3`}>
-        Team {teamNumber}
-      </h2>
+      <div className="flex justify-between items-center mb-3">
+        <h2 className={`text-xl font-semibold ${textColor}`}>
+          Team {teamNumber}
+        </h2>
+        {clubName && (
+          <span className={`text-sm font-medium px-3 py-1 rounded-full bg-white border ${borderColor}`}>
+            {clubName}
+          </span>
+        )}
+      </div>
       <ul className="space-y-2">
         {members.map((member, index) => (
           <li 

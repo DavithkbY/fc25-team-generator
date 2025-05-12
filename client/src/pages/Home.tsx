@@ -15,7 +15,7 @@ export default function Home() {
 
   // Mutation for creating a new team configuration
   const { mutate: createTeamConfig, isPending } = useMutation({
-    mutationFn: async (teams: { team1: string[], team2: string[] }) => {
+    mutationFn: async (teams: { team1: string[], team2: string[], team1Club: string, team2Club: string }) => {
       const res = await apiRequest("POST", "/api/teams", teams);
       return await res.json();
     },
