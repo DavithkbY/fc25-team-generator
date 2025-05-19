@@ -4,7 +4,7 @@
   # Directory to publish (relative to root of your repo)
   publish = "dist"
   # Default build command
-  command = "npm run build:client"
+  command = "node build-client.js"
 
 # Handle SPA routing (redirect all paths to index.html for client-side routing)
 [[redirects]]
