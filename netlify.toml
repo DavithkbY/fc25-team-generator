@@ -2,7 +2,7 @@
 
 [build]
   # Directory to publish (relative to root of your repo)
-  publish = "dist"
+  publish = "dist/public"
   # Default build command
   command = "node build-client.js"
 
