@@ -49,7 +49,7 @@ export const fiveStarClubs: FootballClub[] = [
 ];
 
 // Default player names
-export const DEFAULT_PLAYERS = ["Davit", "Jarne", "Michiel", "Koen"];
+export const DEFAULT_PLAYERS = ["Aron 🚴‍♂️", "Jarne 👣", "Michiel 🏳️‍🌈", "Koen 🎾"];
 
 // Get all clubs based on minimum rating
 export function getClubsByMinRating(minRating: "4.5" | "5"): FootballClub[] {
@@ -67,15 +67,19 @@ export function getRandomClub(clubs: FootballClub[]): FootballClub {
 }
 
 // Get two random clubs that are different from each other
-export function getTwoRandomClubs(minRating: "4.5" | "5"): [FootballClub, FootballClub] {
+export function getTwoRandomClubs(
+  minRating: "4.5" | "5"
+): [FootballClub, FootballClub] {
   const availableClubs = getClubsByMinRating(minRating);
   const firstIndex = Math.floor(Math.random() * availableClubs.length);
   const firstClub = availableClubs[firstIndex];
-  
+
   // Create a new array without the first club
-  const remainingClubs = availableClubs.filter((_, index) => index !== firstIndex);
+  const remainingClubs = availableClubs.filter(
+    (_, index) => index !== firstIndex
+  );
   const secondIndex = Math.floor(Math.random() * remainingClubs.length);
   const secondClub = remainingClubs[secondIndex];
-  
+
   return [firstClub, secondClub];
 }
